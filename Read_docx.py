@@ -41,3 +41,26 @@ def read_pdf(file_path):
     return read_text
 # read_text = read_pdf(input_file)
 # print(read_text)
+
+
+import openai
+# OpenAI chatGPT API 입니다.
+# API 키를 입력하면 바로 사용 가능합니다.
+def GPT_ask(Prompt, Max_token):
+    openai.api_key = "Your API Key Here"
+    stream = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        # model="text-davinci-003",
+        # model=model="gpt-4-0125-preview",
+        temperature=0.3,
+        max_tokens=int(Max_token),
+        messages=[{"role": "user", "content": str(Prompt)}],
+        stream=True,
+    )
+    answer = ""
+    for chunk in stream:
+        if chunk.choices[0].delta.content is not None:
+            print(chunk.choices[0].delta.content, end="")
+            answer = answer + (chunk.choices[0].delta.content)
+    return answer
+# GPT_ask("파이썬으로 openai 라이브러리로 문서를 읽고 요약하는 프로그램을 만들고 싶어. 어떤 GPT 모델을 쓰는게 좋을까? 또 davinchi와 GPT3, GPT4를 이용했을 때 어떤 차이가 발생할지 알려줘.", 1024)
