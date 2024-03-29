@@ -17,3 +17,5 @@ def GPT_ask(Prompt, Max_token):
             # print(chunk.choices[0].delta.content, end="")
             answer = answer + (chunk.choices[0].delta.content)
     return answer
+answer = GPT_ask("What is the capital of Korea?", 100)
+print(answer)
